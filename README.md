@@ -1,2 +1,4 @@
 # kube-manifests
-Some simple manifests for debuging
+Some simple manifests for debuging and playing with Kubernetes.
+
+
