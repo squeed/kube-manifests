@@ -1,0 +1,14 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-client-to-service
+spec:
+  endpointSelector:
+    matchLabels:
+      app: client
+  egress:
+    - toServices:
+      - k8sService:
+          serviceName: hello1
+    - toEntities:
+        - kube-apiserver

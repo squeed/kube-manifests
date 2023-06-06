@@ -1,0 +1,12 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-client-to-one
+spec:
+  endpointSelector:
+    matchLabels:
+      app: client
+  egress:
+    - toCIDR:
+      - 1.1.3.0/24
+      - 1.1.4.0/24

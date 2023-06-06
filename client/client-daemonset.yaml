@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: client
+spec:
+  selector:
+    matchLabels:
+      k8s-app: client-ds
+  template:
+    metadata:
+      labels:
+        app: client
+        k8s-app: client-ds
+    spec:
+      terminationGracePeriodSeconds: 2
+      containers:
+      - name: client
+        image: ghcr.io/nicolaka/netshoot:v0.8
+        command:
+          - /bin/bash
+          - -c
+          # need this so the container exits normally
+          - "trap : TERM INT; sleep infinity & wait"
+      tolerations:
+      - operator: Exists
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: client
+                topologyKey: kubernetes.io/hostname

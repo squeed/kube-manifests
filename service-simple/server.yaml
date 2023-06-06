@@ -1,5 +1,5 @@
 ---
-# a simple service, on two nodes, backed by a cloud LB
+# a simple service with two replicas
 apiVersion: apps/v1
 kind: Deployment
 metadata:
