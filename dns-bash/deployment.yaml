@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sleep-curl
+  name: sleep-curl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sleep-curl
+  template:
+    metadata:
+      labels:
+        app: sleep-curl
+        run: sleep-curl
+        app.kubernetes.io/instance: kubecost
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: ip-10-1-2-91
+      dnsConfig:
+        options:
+        - name: ndots
+          value: "3"
+      containers:
+      - image: yuspin/sleep-curl:main
+        name: sleep-curl
+        command: ["/bin/sh"]
+          #args: ["-c", "while true; do curl s3.dualstack.us-east-1.amazonaws.com ; done"]
+        args: ["-c", "sleep infinity" ]

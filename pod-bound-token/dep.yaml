@@ -1,0 +1,43 @@
+---
+# a simple service with two replicas
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-token
+spec:
+  selector:
+    matchLabels:
+      app: pod-token
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: pod-token
+    spec:
+      terminationGracePeriodSeconds: 2
+      serviceAccount: default
+      containers:
+      - name: sleeper
+        image: quay.io/casey_callendrello/util:v1
+        command:
+          - sleep
+          - "100000000"
+        ports:
+        - containerPort: 8080
+        - containerPort: 8081
+          protocol: UDP
+        volumeMounts:
+          - mountPath: /tmp
+            name: tmp
+          - mountPath: /run/tokens
+            name: tokens
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: tokens
+          projected:
+            sources:
+            - serviceAccountToken:
+                path: test-token
+                expirationSeconds: 7200
+                audience: test-audience

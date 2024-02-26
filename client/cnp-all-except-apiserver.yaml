@@ -1,0 +1,14 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cnp-all-except-apiserver
+spec:
+  egress:
+  - toEntities:
+    - all
+  egressDeny:
+  - toEntities:
+    - kube-apiserver
+  endpointSelector:
+    matchLabels: {}
+

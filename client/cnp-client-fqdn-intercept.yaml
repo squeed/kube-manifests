@@ -1,0 +1,24 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: client-dns-visibility
+spec:
+  endpointSelector:
+    matchLabels:
+      app: client
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            non-selected: broken
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+          - port: "53"
+            protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"

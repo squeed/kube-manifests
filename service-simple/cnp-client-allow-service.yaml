@@ -10,5 +10,7 @@ spec:
     - toServices:
       - k8sService:
           serviceName: hello1
+      - k8sService:
+          serviceName: bottomless
     - toEntities:
         - kube-apiserver

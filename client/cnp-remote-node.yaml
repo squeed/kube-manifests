@@ -1,0 +1,12 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cnp-remote-node
+spec:
+  egress:
+  - toEntities:
+    - host
+    - remote-node
+  endpointSelector:
+    matchLabels: {}
+

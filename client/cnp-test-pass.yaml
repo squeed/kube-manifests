@@ -1,0 +1,12 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cnp-test-pass
+spec:
+  defaultAction: Pass
+  egressDeny:
+  - toEntities:
+    - kube-apiserver
+  endpointSelector:
+    matchLabels: {}
+

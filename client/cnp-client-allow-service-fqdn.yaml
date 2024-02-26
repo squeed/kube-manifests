@@ -1,0 +1,21 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-client-to-service
+spec:
+  endpointSelector:
+    matchLabels:
+      app: client
+  egress:
+    - toEntities:
+        - all
+      toPorts:
+        - ports:
+          - port: "53"
+            protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+      - matchName: "hello1.foo.svc.cluster.local"
+      - matchName: "icanhazip.com"

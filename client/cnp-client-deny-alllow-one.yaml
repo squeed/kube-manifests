@@ -1,12 +1,15 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: allow-client-to-one
+  name: allow-deny-client-to-one
 spec:
   endpointSelector:
     matchLabels:
       app: client
   egress:
     - toCIDR:
-      - 1.1.1.1/32
       - 1.1.1.0/24
+      - 1.1.4.0/24
+  egressDeny:
+    - toCIDR:
+        - 1.1.1.1/32

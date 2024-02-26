@@ -1,0 +1,20 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-client-to-s2
+spec:
+  endpointSelector:
+    matchLabels:
+      app: client
+  egress:
+    - toEntities:
+        - all
+      toPorts:
+        - ports:
+          - port: "53"
+            protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+      - matchName: "www.molly.is."

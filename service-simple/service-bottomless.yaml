@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bottomless
+spec:
+  type: ClusterIP
+  ports:
+    - name: hello1
+      port: 80
+      targetPort: 8080
+    - name: hello1-udp
+      port: 81
+      targetPort: 8081
+      protocol: UDP
+  selector: {}
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: bottomless
+subsets:
+- addresses:
+  - ip: 1.1.1.4
+  ports:
+  - name: hello1
+    port: 8080
+    protocol: TCP
+  - name: hello1-udp
+    port: 8081
+    protocol: UDP 
+
+
